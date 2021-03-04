@@ -171,15 +171,12 @@ class WebAnalyzer {
         "YF-Page-G0=02467fca7cf40a590c28b8459d93fb95|1596707497|1596707497; SUB=_2AkMod12Af8NxqwJRmf8WxGjna49_ygnEieKeK6xbJRMxHRl-yT9kqlcftRB6A_dzb7xq29tqJiOUtDsy806R_ZoEGgwS; SUBP=0033WrSXqPxfM72-Ws9jqgMF55529P9D9W59fYdi4BXCzHNAH7GabuIJ"
   };
 
-  static bool _certificateCheck(X509Certificate cert, String host, int port) =>
-      true;
-
   static Future<Response> _requestUrl(String url,
       {int count = 0, String cookie, useDesktopAgent = true}) async {
     if (url.contains("m.toutiaoimg.cn")) useDesktopAgent = false;
     Response res;
     final uri = Uri.parse(url);
-    final ioClient = HttpClient()..badCertificateCallback = _certificateCheck;
+    final ioClient = HttpClient();
     final client = IOClient(ioClient);
     final request = Request('GET', uri)
       ..followRedirects = false
