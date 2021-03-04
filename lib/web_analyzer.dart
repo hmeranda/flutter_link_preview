@@ -166,11 +166,6 @@ class WebAnalyzer {
     });
   }
 
-  static final Map<String, String> _cookies = {
-    "weibo.com":
-        "YF-Page-G0=02467fca7cf40a590c28b8459d93fb95|1596707497|1596707497; SUB=_2AkMod12Af8NxqwJRmf8WxGjna49_ygnEieKeK6xbJRMxHRl-yT9kqlcftRB6A_dzb7xq29tqJiOUtDsy806R_ZoEGgwS; SUBP=0033WrSXqPxfM72-Ws9jqgMF55529P9D9W59fYdi4BXCzHNAH7GabuIJ"
-  };
-
   static Future<Response> _requestUrl(String url,
       {int count = 0, String cookie, useDesktopAgent = true}) async {
     if (url.contains("m.toutiaoimg.cn")) useDesktopAgent = false;
@@ -184,7 +179,7 @@ class WebAnalyzer {
           ? "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"
           : "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
       ..headers["cache-control"] = "no-cache"
-      ..headers["Cookie"] = cookie ?? _cookies[uri.host]
+      ..headers["Cookie"] = cookie
       ..headers["accept"] = "*/*";
     // print(request.headers);
     final stream = await client.send(request);
