@@ -192,24 +192,22 @@ class WebAnalyzer {
     // print(request.headers);
     final stream = await client.send(request);
 
-    if (stream.statusCode == HttpStatus.movedTemporarily ||
-        stream.statusCode == HttpStatus.movedPermanently) {
-      if (stream.isRedirect && count < 6) {
-        final String location = stream.headers['location'];
-        if (location != null) {
-          url = location;
-          if (location.startsWith("/")) {
-            url = uri.origin + location;
-          }
+    if (stream.isRedirect && count < 6) {
+      final String location = stream.headers['location'];
+      if (location != null) {
+        url = location;
+        if (location.startsWith("/")) {
+          url = uri.origin + location;
         }
-        if (stream.headers['set-cookie'] != null) {
-          cookie = stream.headers['set-cookie'];
-        }
-        count++;
-        client.close();
-        // print("Redirect ====> $url");
-        return _requestUrl(url, count: count, cookie: cookie);
       }
+      if (stream.headers['set-cookie'] != null) {
+        cookie = stream.headers['set-cookie'];
+      }
+      count++;
+      client.close();
+      // print("Redirect ====> $url");
+      return _requestUrl(url, count: count, cookie: cookie);
+
     } else if (stream.statusCode == HttpStatus.ok) {
       res = await Response.fromStream(stream);
       if (uri.host == "m.tb.cn") {
